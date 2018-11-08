@@ -21,7 +21,7 @@ def read_fasta (file):
                 seenheader = 1
             else:
                 seq += line
-        DNA = re.sub("\s+","",seq)
+        seq = re.sub("\s+","",seq)
         seqs.append(seq)
     return seqs
 

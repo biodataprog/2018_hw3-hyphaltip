@@ -23,7 +23,7 @@ def read_fasta (file):
                 seenheader = 1
             else:
                 seq += line
-        DNA = re.sub("\s+","",seq)
+        seq = re.sub("\s+","",seq)
         seqs.append(seq)
     return seqs
 
@@ -32,7 +32,23 @@ def read_fasta (file):
 # processing the sequence to get the amino acid counts and overall
 # percentage
 
+sequences = read_fasta("Saccharomyces_cerevisiae.pep")
+#print(sequences)
+amino_acids = {}
+total = 0
+for seq in sequences:
+    for aa in seq:
+        total += 1
+        if aa in amino_acids:
+            amino_acids[aa] += 1
+        else:
+            amino_acids[aa] = 1
+
+
 Header = ["Amino Acid","Proteome Percentage"]
 print("\t".join(Header))
 
-# your code for the report
+for aa in sorted(amino_acids.keys()):
+    #print("\t".join([ aa, str(100 * amino_acids[aa]/total) ] ))
+    print("%s\t%.2f %%"%(aa,100 * (amino_acids[aa] / total) ) )
+    # your code for the report
