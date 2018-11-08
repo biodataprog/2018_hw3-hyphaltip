@@ -38,7 +38,37 @@ genome2 = "B_subtilis_str_168.fasta"
 # you may want to write your own function to extract this from the
 # sequences or sequence files
 
+ecoliK = read_fasta(genome1)
+bsub = read_fasta(genome2)
+print("there are ", len(ecoliK),"chromosome(s) in this file")
 
+di_counts_ecoli = {}
+total_ecoli = 0
+for sequence in ecoliK:
+    for index in range(0,len(sequence)-1,1):
+        di = sequence[index:index+2]
+        if di in di_counts_ecoli:
+            total_ecoli += 1 
+            di_counts_ecoli[di] += 1
+        else:
+            di_counts_ecoli[di] = 1
+
+di_counts_bsub = {}
+total_bsub = 0
+for sequence in bsub:
+    for index in range(0,len(sequence)-1):
+        di = sequence[index:index+2]
+        if di in di_counts_bsub:
+            total_bsub += 1
+            di_counts_bsub[di] += 1
+        else:
+            di_counts_bsub[di] = 1
+
+    
 # you may want to change array to be dynamic if you read in files from cmdline
 Header=["Motif","Ecoli_K-12","B_subtilis_str_168"]
 print("\t".join(Header))
+for di in sorted(di_counts_ecoli.keys()):
+    print("%s\t%.2f %%\t%.2f %%"%(di,
+                         100 * di_counts_ecoli[di] / total_ecoli,
+                         100 * di_counts_bsub[di] / total_bsub))
